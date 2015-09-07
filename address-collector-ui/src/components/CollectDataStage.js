@@ -122,13 +122,41 @@ export default class CollectDataStage extends Component {
     this.props.onHome();
   }
 
+  renderDeviceRow () {
+    const {deviceObj, errors} = this.props;
+    const deviceItems = this.props.devices.map(it => ({text: it}));
+
+    if (deviceObj.manufacture) {
+      return (
+        <div style = {{...rowStyle, ...columnContainerStyle}}>
+          <SelectField
+            value={deviceObj.device}
+            valueMember="text"
+            onChange={this.handleChange.bind(this, "device")}
+            errorText={errors.device}
+            hintText="Select A Device"
+            menuItems={deviceItems}
+          />
+          <IconButton
+            iconClassName="material-icons"
+            tooltipPosition="top-right"
+            tooltip="Add"
+            iconStyle = {{color: "#7e7e7e"}}
+            onClick={this.props.onNewDevice}
+            >add_circle
+          </IconButton>
+        </div>
+      )
+    } else {
+      return null;
+    }
+  }
+
   render () {
     const manufactureItems = this.props.manufactures.map(it => ({text: it}));
-    const deviceItems = this.props.devices.map(it => ({text: it}));
     const countryItems = this.props.countries.map(it => ({text: it}));
     const storeItems = this.props.stores.map(it => ({text: it}));
-    const {deviceObj,errors} = this.props;
-    //const {errors} = this.props;
+    const {deviceObj, errors} = this.props;
 
     return (
       <div style = {rowContainerStyle}>
@@ -152,24 +180,7 @@ export default class CollectDataStage extends Component {
           </IconButton>  
         </div>
   
-        <div style = {{...rowStyle, ...columnContainerStyle}}>
-          <SelectField
-            value={deviceObj.device}
-            valueMember="text"
-            onChange={this.handleChange.bind(this, "device")}
-            errorText={errors.device}
-            hintText="Select A Device"
-            menuItems={deviceItems}
-          />
-          <IconButton
-            iconClassName="material-icons"
-            tooltipPosition="top-right"
-            tooltip="Add"
-            iconStyle = {{color: "#7e7e7e"}}
-            onClick={this.props.onNewDevice}
-            >add_circle
-          </IconButton>  
-        </div>
+        {this.renderDeviceRow()}
       
         <div style = {{...rowStyle, ...columnContainerStyle}}>
           <TextField
