@@ -122,7 +122,42 @@ export default class CollectDataStage extends Component {
     this.props.onHome();
   }
 
-  render () {
+renderMobileDropDown() {
+     return(
+      <div style = {{...rowStyle, ...columnContainerStyle}}>
+        <select>
+          <value = {deviceObj.manufacture}>
+          //
+          //
+        </select>
+        <IconButton
+          iconClassName="material-icons"
+          tooltipPosition="top-right"
+          tooltip="Add"
+          iconStyle = {{color: "#7e7e7e"}}
+          onClick={this.props.onNewManufacture}
+          >add_circle
+        </IconButton>
+      </div>
+
+      <div style = {{...rowStyle, ...columnContainerStyle}}>
+        <select>
+          <value = {deviceObj.device}>
+          //
+          //
+        </select>
+        <IconButton
+          iconClassName="material-icons"
+          tooltipPosition="top-right"
+          tooltip="Add"
+          iconStyle = {{color: "#7e7e7e"}}
+          onClick={this.props.onNewDevice}
+          >add_circle
+        </IconButton>
+      </div>
+      )
+  }
+
     const manufactureItems = this.props.manufactures.map(it => ({text: it}));
     const deviceItems = this.props.devices.map(it => ({text: it}));
     const countryItems = this.props.countries.map(it => ({text: it}));
@@ -132,6 +167,12 @@ export default class CollectDataStage extends Component {
 
     return (
       <div style = {rowContainerStyle}>
+        if (md.mobile()) {
+          {this.renderMobileDropDown()}
+        }
+        else {
+        //execute normally as follows
+        }
         <div style = {{...rowStyle, ...columnContainerStyle}}>
           <SelectField
             value={deviceObj.manufacture}
