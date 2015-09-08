@@ -122,35 +122,66 @@ export default class CollectDataStage extends Component {
     this.props.onHome();
   }
 
-  render () {
+  renderMobileManufactureRow () {
+    const {deviceObj,errors} = this.props;
+    return (
+      <div style = {{...rowStyle, ...columnContainerStyle}}>
+        <select
+          value={deviceObj.manufacture}
+          onChange={this.handleChange.bind(this, "manufacture")}
+        >
+          <option>Select A Manufacture</option>
+          {this.props.manufactures.map(it => <option key={it} value={it}>{it}</option>)}
+        </select>
+        <IconButton
+          iconClassName="material-icons"
+          tooltipPosition="top-right"
+          tooltip="Add"
+          iconStyle = {{color: "#7e7e7e"}}
+          onClick={this.props.onNewManufacture}
+          >add_circle
+        </IconButton>
+      </div>
+    );
+  }
+
+  renderDesktopManufactureRow () {
     const manufactureItems = this.props.manufactures.map(it => ({text: it}));
+    const {deviceObj,errors} = this.props;
+    return (
+      <div style = {{...rowStyle, ...columnContainerStyle}}>
+        <SelectField
+          value={deviceObj.manufacture}
+          valueMember="text"
+          underlineFocusStyle={{borderColor: "#00afc4"}}
+          onChange={this.handleChange.bind(this, "manufacture")}
+          errorText={errors.manufacture}
+          hintText="Select A Manufacture"
+          menuItems={manufactureItems}
+        />
+        <IconButton
+          iconClassName="material-icons"
+          tooltipPosition="top-right"
+          tooltip="Add"
+          iconStyle = {{color: "#7e7e7e"}}
+          onClick={this.props.onNewManufacture}
+          >add_circle
+        </IconButton>
+      </div>
+    );
+  }
+
+  render () {
     const deviceItems = this.props.devices.map(it => ({text: it}));
     const countryItems = this.props.countries.map(it => ({text: it}));
     const storeItems = this.props.stores.map(it => ({text: it}));
     const {deviceObj,errors} = this.props;
     //const {errors} = this.props;
+    const isMobile = true; // Use Modernizr
 
     return (
       <div style = {rowContainerStyle}>
-        <div style = {{...rowStyle, ...columnContainerStyle}}>
-          <SelectField
-            value={deviceObj.manufacture}
-            valueMember="text"
-            underlineFocusStyle={{borderColor: "#00afc4"}}
-            onChange={this.handleChange.bind(this, "manufacture")}
-            errorText={errors.manufacture}
-            hintText="Select A Manufacture"
-            menuItems={manufactureItems}
-          />
-          <IconButton
-            iconClassName="material-icons"
-            tooltipPosition="top-right"
-            tooltip="Add"
-            iconStyle = {{color: "#7e7e7e"}}
-            onClick={this.props.onNewManufacture}
-            >add_circle
-          </IconButton>  
-        </div>
+        {isMobile ? this.renderMobileManufactureRow() : this.renderDesktopManufactureRow()}
   
         <div style = {{...rowStyle, ...columnContainerStyle}}>
           <SelectField
