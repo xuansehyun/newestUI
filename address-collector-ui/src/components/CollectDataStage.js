@@ -158,6 +158,10 @@ renderMobileDropDown() {
       )
   }
 
+var MobileDetect = require('mobile-detect'),
+  md = new MobileDetect(req.headers['user-agent']);
+
+render () {
     const manufactureItems = this.props.manufactures.map(it => ({text: it}));
     const deviceItems = this.props.devices.map(it => ({text: it}));
     const countryItems = this.props.countries.map(it => ({text: it}));
